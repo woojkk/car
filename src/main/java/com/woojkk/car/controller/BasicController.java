@@ -35,7 +35,8 @@ public class BasicController {
   }
 
   @PostMapping("/saveCompany")
-  public String saveCompany(@ModelAttribute(name = "companyInputDto")CompanyInputDto companyInputDto) {
+  public String saveCompany(
+      @ModelAttribute(name = "companyInputDto") CompanyInputDto companyInputDto) {
     companyService.saveCompanyInputDto(companyInputDto);
 
     return "index";
@@ -70,5 +71,13 @@ public class BasicController {
     model.addAttribute("carList", carList);
 
     return "carList";
+  }
+
+  @GetMapping("/carListNoPage")
+  public String carListNoPage(Model model) {
+    List<Car> carList = carService.getCarList();
+    model.addAttribute("carList", carList);
+
+    return "carListNoPage";
   }
 }

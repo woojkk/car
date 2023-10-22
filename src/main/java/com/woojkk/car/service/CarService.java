@@ -40,4 +40,9 @@ public class CarService {
   public void saveAll(List<Car> companyList) {
     carRepository.saveAll(companyList);
   }
+
+  public List<Car> getCarList() {
+    return carRepository.getCarListByFetchJoin();
+
+  }
 }
