@@ -1,8 +1,12 @@
 package com.woojkk.car.controller;
 
+import com.woojkk.car.domain.Car;
+import com.woojkk.car.domain.CarInputDto;
 import com.woojkk.car.domain.Company;
 import com.woojkk.car.domain.CompanyInputDto;
+import com.woojkk.car.service.CarService;
 import com.woojkk.car.service.CompanyService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class BasicController {
 
   private final CompanyService companyService;
+  private final CarService carService;
 
   @GetMapping("/")
   public String index() {
@@ -42,5 +47,28 @@ public class BasicController {
     model.addAttribute("companyList", companyList);
 
     return "companyList";
+  }
+
+  @GetMapping("/carForm")
+  public String carList(Model model) {
+    List<Company> companyList = companyService.findAll();
+    model.addAttribute("companyList", companyList);
+
+    return "carForm";
+  }
+
+  @PostMapping("/saveCar")
+  public String saveCar(@ModelAttribute(name = "carInputDto") CarInputDto carInputDto) {
+    carService.saveCarInputDto(carInputDto);
+
+    return "index";
+  }
+
+  @GetMapping("/carList")
+  public String carList(@PageableDefault Pageable pageable, Model model) {
+    Page<Car> carList = carService.getCarPage(pageable);
+    model.addAttribute("carList", carList);
+
+    return "carList";
   }
 }

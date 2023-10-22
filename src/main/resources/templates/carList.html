@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <style>
+    .pagination li {
+      display: inline;
+      margin-right: 10px;
+    }
+  </style>
+  <meta charset="UTF-8">
+  <title>Car</title>
+</head>
+<body>
+<h1>차량 정보 확인</h1>
+<table border="1">
+  <tr>
+    <th>순번</th>
+    <th>모델명</th>
+    <th>승차정원</th>
+    <th>회사</th>
+    <th>국가</th>
+  </tr>
+  <tr th:each="car, rowStat : ${carList}" th:class="${rowStat.odd} ? 'odd-row' : 'even-row'">
+    <td th:text="${car.id}"></td>
+    <td th:text="${car.modelName.value}"></td>
+    <td th:text="${car.passengerCapacity.value}"></td>
+    <td th:text="${car.company.companyName.value}"></td>
+    <td th:text="${car.company.companyNation.value}"></td>
+  </tr>
+</table>
+<nav style="text-align: center;">
+  <ul class="pagination"
+      th:with="start=${T(java.lang.Math).floor(carList.number/10) * 10 + 1},
+               last=(${start + 9 < carList.totalPages ? start + 9 : carList.totalPages})">
+    <li>
+      <a th:href="@{./carList(page=1)}" aria-label="First">
+        <span aria-hidden="true"> 처음 </span>
+      </a>
+    </li>
+    <li th:class="${carList.first} ? 'disabled'">
+      <a th:href="${carList.first} ? '#' : @{./carList(page=${carList.number})}" aria-label="Previous">
+        <span aria-hidden="true"> &lt; </span>
+      </a>
+    </li>
+
+    <li th:each="page: ${#numbers.sequence(start, last)}"
+        th:class="${page == carList.number +1} ? 'active'">
+      <a th:text="${page}"
+         th:href="@{./carList(page=${page})}" aria-label="Previous"> &nbsp;</a>
+    </li>
+    <li th:class="${carList.last} ? 'disabled'">
+      <a th:href="${carList.last} ? '#' : @{./carList(page=${carList.number + 2})}" aria-label="Next">
+        <span aria-hidden="true"> &gt; </span>
+      </a>
+    </li>
+    <li>
+      <a th:href="@{./carList(page=${carList.totalPages})}" aria-label="Last">
+        <span aria-hidden="true"> 끝 </span>
+      </a>
+    </li>
+  </ul>
+  <a href="./">홈</a>
+</nav>
+</body>
+</html>
