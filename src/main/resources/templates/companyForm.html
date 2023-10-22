@@ -6,11 +6,11 @@
   <title>Car</title>
 </head>
 <body>
-<h1>Company Form</h1>
+<h1>회사 등록</h1>
 <form method="POST" th:action="@{/saveCompany}"
       th:object="${companyInputDto}">
   <div class="form-group">
-    <label for="companyName">Company Name</label>
+    <label for="companyName">회사명</label>
     <input th:name="companyName"
            id="companyName"
            type="text"
@@ -18,7 +18,7 @@
            name="companyName"/>
   </div>
   <div class="form-group">
-    <label for="companyNation">Company Nation</label>
+    <label for="companyNation">국가</label>
     <input th:name="companyNation"
            id="companyNation"
            type="text"
@@ -30,6 +30,7 @@
       REGISTER
     </button>
   </div>
+  <a href="./">Home</a>
 </form>
 </body>
 </html>
